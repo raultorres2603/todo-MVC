@@ -1,56 +1,83 @@
 class TodosController {
-    #todos = [];
-    #todoInp;
-    #todoFinInp;
-    #todoInsertInp;
-    #init;
+  #todos = new Array();
+  #todoInp;
+  #todoFinInp;
+  #todoInsertInp;
+  #init;
 
-    constructor() {
-        this.#init = this.#initController();
-    }
+  constructor() {
+    this.#init = this.#initController();
+  }
 
-    #initController() {
-        window.addEventListener('load', (ev) => {
-            this.setTodoInp(document.getElementById('todoInp'));
-            this.setTodoFinInp(document.getElementById('todoFinInp'));
-            this.setTodoInsert(document.getElementById('insertTodo'));
-            this.getTodoInsert().addEventListener('click', (ev) => {
-                
-            })
-        })
-    }
+  convertLocalStorage() {
+    let todosStorage = JSON.parse(localStorage.getItem("todos"));
+    todosStorage.forEach((todo) => {
+      Object.setPrototypeOf(todo, Todo.prototype);
+    });
+    console.log(todosStorage);
+    return todosStorage;
+  }
 
-    addTodo(todo) {
-        this.getTodos().push(todo);
-    }
+  #initController() {
+    window.addEventListener("load", (ev) => {
+      if (localStorage.getItem("todos")) {
+        this.setTodos(this.convertLocalStorage());
+      }
 
-/////////////////////////////// SETTERS AND GETTERS ///////////////////////////////
-    setTodoInp(todoInp) {
-        this.#todoInp = todoInp
-    }
+      this.setTodoInp(document.getElementById("todoInp"));
+      this.setTodoFinInp(document.getElementById("todoFinInp"));
+      this.setTodoInsert(document.getElementById("insertTodo"));
 
-    setTodoFinInp(todoFinInp) {
-        this.#todoFinInp = todoFinInp
-    }
+      this.getTodoInsert().addEventListener("click", (ev) => {
+        let todo = new Todo(
+          this.getTodoInp().value,
+          this.getTodoFinInp().value
+        );
+        this.addTodo(todo);
+      });
+      console.log(this.getTodos());
+    });
+  }
 
-    getTodoInp() {
-        return this.#todoInp;
-    }
+  addTodo(todo) {
+    this.getTodos().push(todo);
+    localStorage.setItem("todos", JSON.stringify(this.getTodos()));
+    console.log(this.getTodos());
+  }
 
-    getTodoFinInp() {
-        return this.#todoFinInp;
-    }
+  /////////////////////////////// SETTERS AND GETTERS ///////////////////////////////
 
-    getTodos() {
-        return this.#todos;
-    }
+  getTodoInp() {
+    return this.#todoInp;
+  }
 
-    setTodoInsert(todoInsInp) {
-        this.#todoInsertInp = todoInsInp;
-    }
+  getTodoFinInp() {
+    return this.#todoFinInp;
+  }
 
-    getTodoInsert() {
-        return this.#todoInsertInp;
-    }
-/////////////////////////////// FIN SETTERS AND GETTERS ///////////////////////////////
+  getTodos() {
+    return this.#todos;
+  }
+
+  getTodoInsert() {
+    return this.#todoInsertInp;
+  }
+
+  setTodoInsert(todoInsInp) {
+    this.#todoInsertInp = todoInsInp;
+  }
+
+  setTodos(todos) {
+    this.#todos = todos;
+  }
+
+  setTodoInp(todoInp) {
+    this.#todoInp = todoInp;
+  }
+
+  setTodoFinInp(todoFinInp) {
+    this.#todoFinInp = todoFinInp;
+  }
+
+  /////////////////////////////// FIN SETTERS AND GETTERS ///////////////////////////////
 }
