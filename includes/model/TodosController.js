@@ -14,7 +14,7 @@ class TodosController {
     todosStorage.forEach((todo) => {
       Object.setPrototypeOf(todo, Todo.prototype);
     });
-    console.log(todosStorage);
+    console.log(localStorage.getItem("todos"));
     return todosStorage;
   }
 
