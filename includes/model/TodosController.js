@@ -24,18 +24,20 @@ class TodosController {
         this.setTodos(this.convertLocalStorage());
       }
 
-      this.setTodoInp(document.getElementById("todoInp"));
-      this.setTodoFinInp(document.getElementById("todoFinInp"));
-      this.setTodoInsert(document.getElementById("insertTodo"));
+      this.#addListeners();
 
-      this.getTodoInsert().addEventListener("click", (ev) => {
-        let todo = new Todo(
-          this.getTodoInp().value,
-          this.getTodoFinInp().value
-        );
-        this.addTodo(todo);
-      });
       console.log(this.getTodos());
+    });
+  }
+
+  #addListeners() {
+    this.setTodoInp(document.getElementById("todoInp"));
+    this.setTodoFinInp(document.getElementById("todoFinInp"));
+    this.setTodoInsert(document.getElementById("insertTodo"));
+
+    this.getTodoInsert().addEventListener("click", (ev) => {
+      let todo = new Todo(this.getTodoInp().value, this.getTodoFinInp().value);
+      this.addTodo(todo);
     });
   }
 
