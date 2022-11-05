@@ -23,7 +23,7 @@
             <h5 class="card-header display-4 text-center bg-info">List</h5>
             <div class="card-body">
               <div class="row">
-                <table class="table">
+                <table class="table tableTODOS">
                   <thead class="table-dark text-center">
                     <tr>
                       <th>TODO</th>
