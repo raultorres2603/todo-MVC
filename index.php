@@ -11,6 +11,9 @@
 </head>
 
 <body>
+  <div class="root">
+
+  </div>
   <script src="./includes/model/Todo.js"></script>
   <script src="./includes/model/TodosController.js"></script>
   <script>

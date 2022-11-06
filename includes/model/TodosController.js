@@ -109,7 +109,7 @@ class TodosController {
   #menuController() {
     switch (this.getMenu()) {
       case "main":
-        document.body.innerHTML = `<div class="row">
+        document.querySelector(".root").innerHTML = `<div class="row">
       <div class="col-md-12">
         <div class="display-2 text-center">
           TODO's
