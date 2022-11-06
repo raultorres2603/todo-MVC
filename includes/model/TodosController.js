@@ -242,6 +242,7 @@ class TodosController {
    */
   setMenu(menu) {
     this.#menu = menu;
+    this.#menuController();
   }
 
   /**
