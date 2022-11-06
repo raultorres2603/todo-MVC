@@ -33,7 +33,6 @@ class TodosController {
   #initController() {
     this.setMenu("main");
     window.addEventListener("load", (ev) => {
-      this.#menuController();
       if (localStorage.getItem("todos")) {
         this.setTodos(this.convertLocalStorage());
       }
