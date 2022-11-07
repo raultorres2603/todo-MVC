@@ -14,11 +14,7 @@
   <div class="root">
 
   </div>
-  <script src="./includes/model/Todo.js"></script>
-  <script src="./includes/model/TodosController.js"></script>
-  <script>
-    var controller = new TodosController();
-  </script>
+  <script type="module" src="./includes/main.js"></script>
 </body>
 
 </html>

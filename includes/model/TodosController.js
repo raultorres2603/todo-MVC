@@ -1,8 +1,10 @@
+import { Todo } from "./Todo.js";
+
 /**
  * Represents a Controller of the APP
  * @constructor
  */
-class TodosController {
+export class TodosController {
   #todos = new Array();
   #todoInp;
   #todoFinInp;
