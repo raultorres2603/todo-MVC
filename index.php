@@ -11,6 +11,11 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1" id="initNav">TODO's</span>
+    </div>
+  </nav>
   <div class="root">
 
   </div>
