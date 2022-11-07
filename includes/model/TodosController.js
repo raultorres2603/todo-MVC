@@ -38,7 +38,6 @@ export class TodosController {
       if (localStorage.getItem("todos")) {
         this.setTodos(this.convertLocalStorage());
       }
-
       this.#draw();
     });
   }
