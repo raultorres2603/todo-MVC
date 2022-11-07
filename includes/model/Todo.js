@@ -1,3 +1,7 @@
+/**
+ * Todo CLASS
+ * @constructor
+ */
 export class Todo {
   constructor(name, final) {
     this.name = name;
