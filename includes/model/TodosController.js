@@ -54,10 +54,20 @@ export class TodosController {
     this.setTodoInsert(document.getElementById("insertTodo"));
     this.setTodoTableBody(document.querySelector(".tBodyTODO"));
 
-    this.getTodoInsert().addEventListener("click", (ev) => {
-      let todo = new Todo(this.getTodoInp().value, this.getTodoFinInp().value);
-      this.#addTodo(todo);
-    });
+    switch (this.getMenu()) {
+      case "main":
+        this.getTodoInsert().addEventListener("click", (ev) => {
+          let todo = new Todo(
+            this.getTodoInp().value,
+            this.getTodoFinInp().value
+          );
+          this.#addTodo(todo);
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 
   /**
