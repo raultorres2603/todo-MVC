@@ -39,8 +39,6 @@ export class TodosController {
         this.setTodos(this.convertLocalStorage());
       }
 
-      this.#addListeners();
-
       this.#draw();
     });
   }
@@ -49,15 +47,25 @@ export class TodosController {
    * Add Listeners to each input
    */
   #addListeners() {
-    this.setTodoInp(document.getElementById("todoInp"));
-    this.setTodoFinInp(document.getElementById("todoFinInp"));
-    this.setTodoInsert(document.getElementById("insertTodo"));
-    this.setTodoTableBody(document.querySelector(".tBodyTODO"));
+    switch (this.getMenu()) {
+      case "main":
+        this.setTodoInp(document.getElementById("todoInp"));
+        this.setTodoFinInp(document.getElementById("todoFinInp"));
+        this.setTodoInsert(document.getElementById("insertTodo"));
+        this.setTodoTableBody(document.querySelector(".tBodyTODO"));
 
-    this.getTodoInsert().addEventListener("click", (ev) => {
-      let todo = new Todo(this.getTodoInp().value, this.getTodoFinInp().value);
-      this.#addTodo(todo);
-    });
+        this.getTodoInsert().addEventListener("click", (ev) => {
+          let todo = new Todo(
+            this.getTodoInp().value,
+            this.getTodoFinInp().value
+          );
+          this.#addTodo(todo);
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 
   /**
@@ -174,6 +182,7 @@ export class TodosController {
         </div>
       </div>
     </div>`;
+        this.#addListeners();
         break;
 
       default:
