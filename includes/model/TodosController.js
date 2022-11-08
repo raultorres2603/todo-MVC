@@ -91,7 +91,6 @@ export class TodosController {
    * Draw method on table body
    */
   #draw() {
-    console.log("DIBUJANDO");
     let tableBody = this.getTodoTableBody();
     // Clean table body
     tableBody.replaceChildren();
