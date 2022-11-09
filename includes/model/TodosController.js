@@ -8,11 +8,11 @@ import { View } from "./View.js";
 export class TodosController {
   #todos = new Array();
   #init;
-  #menu;
   #view;
 
   constructor() {
     this.#init = this.#initController();
+    this.#view = new View("main");
   }
 
   /**
@@ -31,7 +31,6 @@ export class TodosController {
    * Function that is called when the Controller it's created
    */
   #initController() {
-    this.setMenu("main");
     window.addEventListener("load", (ev) => {
       if (localStorage.getItem("todos")) {
         this.setTodos(this.convertLocalStorage());
@@ -47,7 +46,7 @@ export class TodosController {
    * Add Listeners to each input
    */
   #addListeners() {
-    switch (this.getMenu()) {
+    switch (this.getView().getMenu()) {
       case "main":
         document
           .getElementById("insertTodo")
@@ -89,7 +88,7 @@ export class TodosController {
    * Draw method on table body
    */
   #draw() {
-    switch (this.getMenu()) {
+    switch (this.getView().getMenu()) {
       case "main":
         console.log("DIBUJANDO");
         let tableBody = document.querySelector(".tBodyTODO");
@@ -122,10 +121,6 @@ export class TodosController {
     }
   }
 
-  #menuController() {
-    this.setView(new View(this.getMenu()));
-  }
-
   /////////////////////////////// SETTERS AND GETTERS ///////////////////////////////
 
   /**
@@ -138,26 +133,10 @@ export class TodosController {
 
   /**
    *  Getter of menu
-   * @returns {HTMLElement}
-   */
-  getMenu() {
-    return this.#menu;
-  }
-
-  /**
-   *  Getter of menu
    * @returns {View}
    */
   getView() {
     return this.#view;
-  }
-
-  /**
-   *  Setter of menu
-   */
-  setMenu(menu) {
-    this.#menu = menu;
-    this.#menuController();
   }
 
   /**

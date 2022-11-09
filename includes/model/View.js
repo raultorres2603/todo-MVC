@@ -1,11 +1,12 @@
 export class View {
+  #menu;
   constructor(menu) {
-    this.menu = menu;
+    this.#menu = menu;
     this.#render();
   }
 
   #render() {
-    switch (this.menu) {
+    switch (this.getMenu()) {
       case "main":
         document.querySelector(".root").innerHTML = `<div class="row">
       <div class="col-md-12">
@@ -75,5 +76,9 @@ export class View {
       default:
         break;
     }
+  }
+
+  getMenu() {
+    return this.#menu;
   }
 }
