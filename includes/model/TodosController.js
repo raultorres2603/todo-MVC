@@ -11,8 +11,8 @@ export class TodosController {
   #view;
 
   constructor() {
-    this.#init = this.#initController();
     this.#view = new View("main");
+    this.#init = this.#initController();
   }
 
   /**
