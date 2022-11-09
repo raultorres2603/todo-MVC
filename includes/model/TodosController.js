@@ -34,11 +34,9 @@ export class TodosController {
     window.addEventListener("load", (ev) => {
       if (localStorage.getItem("todos")) {
         this.setTodos(this.convertLocalStorage());
+        this.#draw();
       }
-
       this.#addListeners();
-
-      this.#draw();
     });
   }
 
@@ -80,7 +78,11 @@ export class TodosController {
    */
   #deleteTodo(todoIndex) {
     this.getTodos().splice(todoIndex, 1);
-    localStorage.setItem("todos", JSON.stringify(this.getTodos()));
+    if (this.getTodos().length == 0) {
+      localStorage.removeItem("todos");
+    } else {
+      localStorage.setItem("todos", JSON.stringify(this.getTodos()));
+    }
     this.#draw();
   }
 
