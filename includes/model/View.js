@@ -1,6 +1,11 @@
 export class View {
-  static render(menu) {
-    switch (menu) {
+  constructor(menu) {
+    this.menu = menu;
+    this.#render();
+  }
+
+  #render() {
+    switch (this.menu) {
       case "main":
         document.querySelector(".root").innerHTML = `<div class="row">
       <div class="col-md-12">

@@ -7,12 +7,9 @@ import { View } from "./View.js";
  */
 export class TodosController {
   #todos = new Array();
-  #todoInp;
-  #todoFinInp;
-  #todoInsertInp;
-  #tableTODOSbody;
   #init;
   #menu;
+  #view;
 
   constructor() {
     this.#init = this.#initController();
@@ -34,11 +31,14 @@ export class TodosController {
    * Function that is called when the Controller it's created
    */
   #initController() {
+    this.setMenu("main");
     window.addEventListener("load", (ev) => {
-      this.setMenu("main");
       if (localStorage.getItem("todos")) {
         this.setTodos(this.convertLocalStorage());
       }
+
+      this.#addListeners();
+
       this.#draw();
     });
   }
@@ -49,54 +49,15 @@ export class TodosController {
   #addListeners() {
     switch (this.getMenu()) {
       case "main":
-        this.setTodoInp(document.getElementById("todoInp"));
-        this.setTodoFinInp(document.getElementById("todoFinInp"));
-        this.setTodoInsert(document.getElementById("insertTodo"));
-        this.setTodoTableBody(document.querySelector(".tBodyTODO"));
-
-        this.getTodoInsert().addEventListener("click", (ev) => {
-          let todo = new Todo(
-            this.getTodoInp().value,
-            this.getTodoFinInp().value
-          );
-          this.#addTodo(todo);
-        });
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  /**
-   * Draw method on table body
-   */
-  #draw() {
-    switch (this.getMenu()) {
-      case "main":
-        let tableBody = this.getTodoTableBody();
-        // Clean table body
-        tableBody.replaceChildren();
-        // For each todo, insert row with the cells
-        this.getTodos().forEach((todo, index) => {
-          //Creamos la ROW para meter las celdas siguientes
-          let row = tableBody.insertRow();
-          let todoName = row.insertCell();
-          todoName.innerHTML = todo.getName();
-          let todoCreate = row.insertCell();
-          todoCreate.innerHTML = new Date(
-            todo.getCreated()
-          ).toLocaleDateString();
-          let todoFinal = row.insertCell();
-          todoFinal.innerHTML = new Date(todo.getFinal()).toLocaleDateString();
-          let todoDelete = row.insertCell();
-          todoDelete.innerHTML = `<div class="d-grid gap-2">
-      <button class="btn btn-danger align-middle" type="button">Delete</button>
-    </div>`;
-          todoDelete.addEventListener("click", (ev) => {
-            this.#deleteTodo(index);
+        document
+          .getElementById("insertTodo")
+          .addEventListener("click", (ev) => {
+            let todo = new Todo(
+              document.getElementById("todoInp").value,
+              document.getElementById("todoFinInp").value
+            );
+            this.#addTodo(todo);
           });
-        });
         break;
 
       default:
@@ -124,28 +85,48 @@ export class TodosController {
     this.#draw();
   }
 
+  /**
+   * Draw method on table body
+   */
+  #draw() {
+    switch (this.getMenu()) {
+      case "main":
+        console.log("DIBUJANDO");
+        let tableBody = document.querySelector(".tBodyTODO");
+        // Clean table body
+        tableBody.replaceChildren();
+        // For each todo, insert row with the cells
+        this.getTodos().forEach((todo, index) => {
+          //Creamos la ROW para meter las celdas siguientes
+          let row = tableBody.insertRow();
+          let todoName = row.insertCell();
+          todoName.innerHTML = todo.getName();
+          let todoCreate = row.insertCell();
+          todoCreate.innerHTML = new Date(
+            todo.getCreated()
+          ).toLocaleDateString();
+          let todoFinal = row.insertCell();
+          todoFinal.innerHTML = new Date(todo.getFinal()).toLocaleDateString();
+          let todoDelete = row.insertCell();
+          todoDelete.innerHTML = `<div class="d-grid gap-2">
+          <button class="btn btn-danger align-middle" type="button">Delete</button>
+          </div>`;
+          todoDelete.addEventListener("click", (ev) => {
+            this.#deleteTodo(index);
+          });
+        });
+        break;
+
+      default:
+        break;
+    }
+  }
+
   #menuController() {
-    View.render(this.getMenu());
-    this.#addListeners();
+    this.setView(new View(this.getMenu()));
   }
 
   /////////////////////////////// SETTERS AND GETTERS ///////////////////////////////
-
-  /**
-   *  Getter of todoInp
-   * @returns {HTMLElement}
-   */
-  getTodoInp() {
-    return this.#todoInp;
-  }
-
-  /**
-   *  Getter of todoFinInp
-   * @returns {HTMLElement}
-   */
-  getTodoFinInp() {
-    return this.#todoFinInp;
-  }
 
   /**
    *  Getter of todos
@@ -153,22 +134,6 @@ export class TodosController {
    */
   getTodos() {
     return this.#todos;
-  }
-
-  /**
-   *  Getter of todoInsertInp
-   * @returns {HTMLElement}
-   */
-  getTodoInsert() {
-    return this.#todoInsertInp;
-  }
-
-  /**
-   *  Getter of tableTODOSbody
-   * @returns {HTMLElement}
-   */
-  getTodoTableBody() {
-    return this.#tableTODOSbody;
   }
 
   /**
@@ -180,10 +145,11 @@ export class TodosController {
   }
 
   /**
-   *  Setter of todoInsertInp
+   *  Getter of menu
+   * @returns {View}
    */
-  setTodoInsert(todoInsInp) {
-    this.#todoInsertInp = todoInsInp;
+  getView() {
+    return this.#view;
   }
 
   /**
@@ -195,13 +161,6 @@ export class TodosController {
   }
 
   /**
-   *  Setter of tableTODOSbody
-   */
-  setTodoTableBody(todoTableBody) {
-    this.#tableTODOSbody = todoTableBody;
-  }
-
-  /**
    *  Setter of todos
    */
   setTodos(todos) {
@@ -209,17 +168,10 @@ export class TodosController {
   }
 
   /**
-   *  Setter of todoInp
+   *  Setter of views
    */
-  setTodoInp(todoInp) {
-    this.#todoInp = todoInp;
-  }
-
-  /**
-   *  Setter of todoFinInp
-   */
-  setTodoFinInp(todoFinInp) {
-    this.#todoFinInp = todoFinInp;
+  setView(view) {
+    this.#view = view;
   }
 
   /////////////////////////////// FIN SETTERS AND GETTERS ///////////////////////////////
