@@ -151,8 +151,8 @@ export class TodosController {
   /**
    *  Setter of views
    */
-  setView(view) {
-    this.#view = view;
+  setView(menu) {
+    this.#view = new View(menu);
   }
 
   /////////////////////////////// FIN SETTERS AND GETTERS ///////////////////////////////
