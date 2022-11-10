@@ -11,7 +11,6 @@ export class TodosController {
   #view;
 
   constructor() {
-    this.#view = new View("main");
     this.#init = this.#initController();
   }
 
@@ -31,12 +30,11 @@ export class TodosController {
    * Function that is called when the Controller it's created
    */
   #initController() {
+    this.setView("main");
     window.addEventListener("load", (ev) => {
       if (localStorage.getItem("todos")) {
         this.setTodos(this.convertLocalStorage());
-        this.#draw();
       }
-      this.#addListeners();
     });
   }
 
@@ -60,6 +58,7 @@ export class TodosController {
       default:
         break;
     }
+    this.#draw();
   }
 
   /**
@@ -153,6 +152,7 @@ export class TodosController {
    */
   setView(menu) {
     this.#view = new View(menu);
+    this.#addListeners();
   }
 
   /////////////////////////////// FIN SETTERS AND GETTERS ///////////////////////////////
