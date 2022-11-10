@@ -1,5 +1,5 @@
-import { Todo } from "./Todo.js";
-import { View } from "./View.js";
+import { Todo } from "../model/Todo.js";
+import { View } from "../model/View.js";
 
 /**
  * Represents a Controller of the APP
