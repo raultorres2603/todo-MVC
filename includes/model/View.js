@@ -1,60 +1,8 @@
-import { Todo } from "./Todo.js";
 export class View {
   #menu;
-  #todos;
-
-  constructor(menu, todos) {
-    this.#todos = todos;
+  constructor(menu) {
     this.#menu = menu;
     this.#render();
-  }
-
-  /**
-   * Delete a todo by the passed index on locanStorage and prop
-   * @param {Int} todoIndex
-   */
-  #deleteTodo(todoIndex) {
-    this.getTodos().splice(todoIndex, 1);
-    if (this.getTodos().length == 0) {
-      localStorage.removeItem("todos");
-    } else {
-      localStorage.setItem("todos", JSON.stringify(this.getTodos()));
-    }
-    this.#draw();
-  }
-
-  #draw() {
-    switch (this.getMenu()) {
-      case "main":
-        console.log("DIBUJANDO");
-        let tableBody = document.querySelector(".tBodyTODO");
-        // Clean table body
-        tableBody.replaceChildren();
-        // For each todo, insert row with the cells
-        this.getTodos().forEach((todo, index) => {
-          //Creamos la ROW para meter las celdas siguientes
-          let row = tableBody.insertRow();
-          let todoName = row.insertCell();
-          todoName.innerHTML = todo.getName();
-          let todoCreate = row.insertCell();
-          todoCreate.innerHTML = new Date(
-            todo.getCreated()
-          ).toLocaleDateString();
-          let todoFinal = row.insertCell();
-          todoFinal.innerHTML = new Date(todo.getFinal()).toLocaleDateString();
-          let todoDelete = row.insertCell();
-          todoDelete.innerHTML = `<div class="d-grid gap-2">
-          <button class="btn btn-danger align-middle" type="button">Delete</button>
-          </div>`;
-          todoDelete.addEventListener("click", (ev) => {
-            this.#deleteTodo(index);
-          });
-        });
-        break;
-
-      default:
-        break;
-    }
   }
 
   #render() {
@@ -128,47 +76,9 @@ export class View {
       default:
         break;
     }
-    this.#addListeners();
-  }
-
-  /**
-   * Function that adds a new Todo to the prop and localStorage
-   * @param {Todo} todo
-   */
-  #addTodo(todo) {
-    this.getTodos().push(todo);
-    localStorage.setItem("todos", JSON.stringify(this.getTodos()));
-    this.#draw();
-  }
-
-  /**
-   * Add Listeners to each input
-   */
-  #addListeners() {
-    switch (this.getMenu()) {
-      case "main":
-        document
-          .getElementById("insertTodo")
-          .addEventListener("click", (ev) => {
-            let todo = new Todo(
-              document.getElementById("todoInp").value,
-              document.getElementById("todoFinInp").value
-            );
-            this.#addTodo(todo);
-          });
-        break;
-
-      default:
-        break;
-    }
-    this.#draw();
   }
 
   getMenu() {
     return this.#menu;
-  }
-
-  getTodos() {
-    return this.#todos;
   }
 }
