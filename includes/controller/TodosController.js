@@ -34,8 +34,8 @@ export class TodosController {
     window.addEventListener("load", (ev) => {
       if (localStorage.getItem("todos")) {
         this.setTodos(this.convertLocalStorage());
-        this.#draw();
       }
+      this.#draw();
       this.#addListeners();
     });
   }
