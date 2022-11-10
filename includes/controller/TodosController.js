@@ -153,6 +153,8 @@ export class TodosController {
    */
   setView(menu) {
     this.#view = new View(menu);
+    this.#addListeners();
+    this.#draw();
   }
 
   /////////////////////////////// FIN SETTERS AND GETTERS ///////////////////////////////
