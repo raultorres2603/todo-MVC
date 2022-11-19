@@ -35,7 +35,7 @@ export class TodosController {
       if (localStorage.getItem("todos")) {
         this.setTodos(this.convertLocalStorage());
       }
-      this.#draw();
+      this.getView().draw(this.getTodos());
       this.#addListeners();
     });
   }
@@ -55,6 +55,7 @@ export class TodosController {
             );
             this.#addTodo(todo);
           });
+        this.#addDeleteTodoListener();
         break;
 
       default:
@@ -69,7 +70,16 @@ export class TodosController {
   #addTodo(todo) {
     this.getTodos().push(todo);
     localStorage.setItem("todos", JSON.stringify(this.getTodos()));
-    this.#draw();
+    this.getView().draw(this.getTodos());
+    this.#addDeleteTodoListener();
+  }
+
+  #addDeleteTodoListener() {
+    document.querySelectorAll(".todoDelete").forEach((element, index) => {
+      element.addEventListener("click", () => {
+        this.#deleteTodo(element.dataset.todoIndex);
+      });
+    });
   }
 
   /**
@@ -83,44 +93,8 @@ export class TodosController {
     } else {
       localStorage.setItem("todos", JSON.stringify(this.getTodos()));
     }
-    this.#draw();
-  }
-
-  /**
-   * Draw method on table body
-   */
-  #draw() {
-    switch (this.getView().getMenu()) {
-      case "main":
-        console.log("DIBUJANDO");
-        let tableBody = document.querySelector(".tBodyTODO");
-        // Clean table body
-        tableBody.replaceChildren();
-        // For each todo, insert row with the cells
-        this.getTodos().forEach((todo, index) => {
-          //Creamos la ROW para meter las celdas siguientes
-          let row = tableBody.insertRow();
-          let todoName = row.insertCell();
-          todoName.innerHTML = todo.getName();
-          let todoCreate = row.insertCell();
-          todoCreate.innerHTML = new Date(
-            todo.getCreated()
-          ).toLocaleDateString();
-          let todoFinal = row.insertCell();
-          todoFinal.innerHTML = new Date(todo.getFinal()).toLocaleDateString();
-          let todoDelete = row.insertCell();
-          todoDelete.innerHTML = `<div class="d-grid gap-2">
-          <button class="btn btn-danger align-middle" type="button">Delete</button>
-          </div>`;
-          todoDelete.addEventListener("click", (ev) => {
-            this.#deleteTodo(index);
-          });
-        });
-        break;
-
-      default:
-        break;
-    }
+    this.getView().draw(this.getTodos());
+    this.#addDeleteTodoListener();
   }
 
   /////////////////////////////// SETTERS AND GETTERS ///////////////////////////////
@@ -153,8 +127,8 @@ export class TodosController {
    */
   setView(menu) {
     this.#view = new View(menu);
+    this.getView().draw(this.getTodos());
     this.#addListeners();
-    this.#draw();
   }
 
   /////////////////////////////// FIN SETTERS AND GETTERS ///////////////////////////////

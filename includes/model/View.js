@@ -5,6 +5,37 @@ export class View {
     this.#render();
   }
 
+  draw(todos) {
+    switch (this.getMenu()) {
+      case "main":
+        console.log("DIBUJANDO");
+        let tableBody = document.querySelector(".tBodyTODO");
+        // Clean table body
+        tableBody.replaceChildren();
+        // For each todo, insert row with the cells
+        todos.forEach((todo, index) => {
+          //Creamos la ROW para meter las celdas siguientes
+          let row = tableBody.insertRow();
+          let todoName = row.insertCell();
+          todoName.innerHTML = todo.getName();
+          let todoCreate = row.insertCell();
+          todoCreate.innerHTML = new Date(
+            todo.getCreated()
+          ).toLocaleDateString();
+          let todoFinal = row.insertCell();
+          todoFinal.innerHTML = new Date(todo.getFinal()).toLocaleDateString();
+          let todoDelete = row.insertCell();
+          todoDelete.innerHTML = `<div class="d-grid gap-2">
+          <button class="btn btn-danger todoDelete align-middle" data-todoIndex="${index}" type="button">Delete</button>
+          </div>`;
+        });
+        break;
+
+      default:
+        break;
+    }
+  }
+
   #render() {
     switch (this.getMenu()) {
       case "main":
