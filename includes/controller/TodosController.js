@@ -77,7 +77,7 @@ export class TodosController {
   #addDeleteTodoListener() {
     document.querySelectorAll(".todoDelete").forEach((element, index) => {
       element.addEventListener("click", () => {
-        this.#deleteTodo(element.dataset.todoIndex);
+        this.#deleteTodo(element.dataset.todoindex);
       });
     });
   }
